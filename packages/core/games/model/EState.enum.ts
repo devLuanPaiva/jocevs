@@ -1,0 +1,6 @@
+export enum EStateGame{
+    WAITING = 'AGUARDANDO',
+    PLAYING = 'JOGO EM ANDAMENTO',
+    PAUSED = 'PAUSADO',
+    FINISHED = 'FINALIZADO',
+}
