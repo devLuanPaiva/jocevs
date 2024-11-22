@@ -29,6 +29,8 @@ model Game {
   time     Int
   location String
   state    String
+  category String
+  type     String
 
   team1 Team @relation("Team1Games", fields: [team1Id], references: [id])
   team2 Team @relation("Team2Games", fields: [team2Id], references: [id])
