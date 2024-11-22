@@ -18,7 +18,7 @@ export class TeamProvider {
     const team = await this.prisma.team.findFirst({ where: { name } });
     return (team as any) ?? null;
   }
-  async addTeam(team: Partial<ITeam>): Promise<void> {
+  async addTeam(team: ITeam): Promise<void> {
     const { id, ...data } = team;
     await this.prisma.team.upsert({
       where: { id: id ?? -1 },

@@ -13,7 +13,7 @@ import { ITeam, Team } from '@jocevs/core';
 export class TeamController {
   constructor(private readonly repo: TeamProvider) {}
   @Post('create')
-  async addTeam(@Body() teamBody: Partial<ITeam>) {
+  async addTeam(@Body() teamBody: ITeam) {
     const team = new Team(this.repo);
     try {
       return await team.addTeam(teamBody);
