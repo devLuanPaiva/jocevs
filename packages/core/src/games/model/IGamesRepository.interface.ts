@@ -6,11 +6,12 @@ import { IGames } from "./IGames.interface";
 export interface IGamesRepository{
     getGames(): Promise<IGames[]>;
     getGameById(id: number): Promise<IGames>;
-    getGamesFromCategory(category: ECategoryTeam): Promise<IGames[]>;
-    getGamesFromType(type: ETypeTeam): Promise<IGames[]>;
-    getGamesFromDate(date: Date): Promise<IGames[]>;
-    getGamesFromTeam(teamId: number): Promise<IGames[]>;
+    getGamesByCategory(category: ECategoryTeam): Promise<IGames[]>;
+    getGamesByType(type: ETypeTeam): Promise<IGames[]>;
+    getGamesByDate(date: Date): Promise<IGames[]>;
+    getGamesByTeam(teamId: number): Promise<IGames[]>;
     addGame(game: Partial<IGames>): Promise<void>;
     updateGame(id: number, game: Partial<IGames>): Promise<void>;
     updateState(id: number, state:EStateGame): Promise<void>;
+    deleteGame(id: number): Promise<void>;
 }
