@@ -3,12 +3,18 @@ import { ITeamsRepository } from "./ITeamRepository.interface";
 
 export default class Team {
   constructor(private readonly repo: ITeamsRepository) {}
-  async addTeam(team: Partial<ITeam>): Promise<void> {
-    const hasTeam = await this.repo.getTeamByName(team.name!);
+  async addTeam(team: ITeam): Promise<void> {
+    const hasTeam = await this.repo.getTeamByName(team.name);
     if (hasTeam) {
       throw new Error("O time já foi cadastrado!");
     }
-    await this.repo.addTeam(team);
+    const newTeam: ITeam = {
+      ...team,
+      goals: "",
+      goalByGame: "",
+      games: [],
+    };
+    await this.repo.addTeam(newTeam);
   }
   async updateTeam(id: number, team: Partial<ITeam>): Promise<void> {
     await this.repo.updateTeam(id, team);
