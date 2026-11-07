@@ -5,6 +5,7 @@ import { ButtonLink } from '@/components/ui/ButtonLink';
 import { ShareButton } from '@/components/ui/ShareButton';
 import { WaveEdge } from '@/components/ui/WaveEdge';
 import { buildGamesHref, scopeOfStatus } from '../lib/game-filters';
+import { matchPath } from '../lib/match-identifier';
 import { buildMatchShare } from '../lib/match-share';
 import { getMatchOutcome } from '../lib/match-outcome';
 import { categoryLabel, stageLabel } from '../lib/match-labels';
@@ -54,7 +55,7 @@ export function MatchDetailView({ detail }: Readonly<MatchDetailViewProps>): Rea
             <ShareButton
               title={share.title}
               text={`${share.title} — ${share.description}`}
-              url={`/jogos/${match.id}`}
+              url={matchPath(match.slug)}
               label="Compartilhar partida"
             />
             <ButtonLink href={`/categorias/${category.id}`}>Classificação da categoria</ButtonLink>
