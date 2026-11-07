@@ -5,6 +5,7 @@ import { toMatchResponse } from './match-response.mapper';
 
 const scheduled: Match = {
   id: '00000000-0000-4000-8000-0000000000d1',
+  slug: 'centro-x-bairro-novo-adulto-masculino',
   categoryId: '00000000-0000-4000-8000-000000000005',
   stage: MatchStage.KNOCKOUT,
   groupId: null,
