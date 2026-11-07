@@ -6,15 +6,25 @@ import { TeamBadge } from './TeamBadge';
 interface ScoreboardSideProps {
   team: Team;
   outcome: SideOutcome;
+  showWinnerTag: boolean;
 }
 
-function ScoreboardSide({ team, outcome }: Readonly<ScoreboardSideProps>): ReactElement {
-  const dimmed = outcome.isWinner ? '' : 'opacity-80';
+function ScoreboardSide({
+  team,
+  outcome,
+  showWinnerTag,
+}: Readonly<ScoreboardSideProps>): ReactElement {
+  const dimmed = showWinnerTag && !outcome.isWinner ? 'opacity-60' : '';
   return (
     <div className={`flex min-w-0 flex-col items-center gap-2 text-center ${dimmed}`}>
       <TeamBadge team={team} size="large" />
       <p className="font-display text-2xl leading-none wrap-anywhere md:text-5xl">{team.name}</p>
       <p className="text-sm text-white/70">{team.city}</p>
+      {showWinnerTag && outcome.isWinner ? (
+        <span className="rounded-full bg-sun px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-900">
+          Vencedor
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -25,6 +35,7 @@ interface MatchScoreboardProps {
   sideA: SideOutcome;
   sideB: SideOutcome;
   note: string | null;
+  isWalkover: boolean;
 }
 
 export function MatchScoreboard({
@@ -33,12 +44,13 @@ export function MatchScoreboard({
   sideA,
   sideB,
   note,
+  isWalkover,
 }: Readonly<MatchScoreboardProps>): ReactElement {
   const hasPenalties = sideA.penalties !== null && sideB.penalties !== null;
   return (
     <div className="mt-10 rounded-[2rem] bg-white/10 p-4 ring-1 ring-white/25 backdrop-blur sm:p-6 md:p-10">
       <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-2">
-        <ScoreboardSide team={teamA} outcome={sideA} />
+        <ScoreboardSide team={teamA} outcome={sideA} showWinnerTag={isWalkover} />
         <p
           aria-label={`Placar: ${sideA.score} a ${sideB.score}`}
           className="mt-3 shrink-0 font-display text-5xl leading-none text-sun sm:mt-6 sm:text-7xl md:mt-10 md:text-9xl"
@@ -47,7 +59,7 @@ export function MatchScoreboard({
           <span className="px-1 text-white/60 sm:px-2 md:px-4">x</span>
           {sideB.score}
         </p>
-        <ScoreboardSide team={teamB} outcome={sideB} />
+        <ScoreboardSide team={teamB} outcome={sideB} showWinnerTag={isWalkover} />
       </div>
       {hasPenalties ? (
         <p className="mt-6 text-center font-semibold text-sun">
