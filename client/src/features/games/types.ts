@@ -38,6 +38,7 @@ export interface BestPlayer {
 
 export interface Match {
   id: string;
+  slug: string;
   categoryId: string;
   stage: MatchStage;
   groupId: string | null;

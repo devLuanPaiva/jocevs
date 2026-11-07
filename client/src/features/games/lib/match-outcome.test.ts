@@ -7,6 +7,7 @@ const TEAM_B = 'team-b';
 
 const scheduled: Match = {
   id: 'match-1',
+  slug: 'team-a-x-team-b-sub-15-masculino',
   categoryId: 'category-1',
   stage: 'GROUP',
   groupId: 'group-1',
