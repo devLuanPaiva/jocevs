@@ -73,14 +73,38 @@ describe('getMatchOutcome', () => {
     expect(outcome.sideB.isWinner).toBe(true);
   });
 
-  it.each([
-    { resultType: 'WALKOVER' as const, winnerId: TEAM_B, note: 'Vitória por W.O.' },
-    { resultType: 'DOUBLE_WALKOVER' as const, winnerId: null, note: 'W.O. dos dois times' },
-  ])('explains the $resultType result instead of a score', ({ resultType, winnerId, note }) => {
-    const outcome = getMatchOutcome({ ...scheduled, status: 'FINALIZED', resultType, winnerId });
+  it('marks the team that showed up with W and the absent one with O', () => {
+    const outcome = getMatchOutcome(
+      { ...scheduled, status: 'FINALIZED', resultType: 'WALKOVER', winnerId: TEAM_B },
+      { teamA: { name: 'Alto da Boa Vista' }, teamB: { name: 'Centro Esporte Clube' } },
+    );
 
-    expect(outcome.note).toBe(note);
+    expect([outcome.sideA.score, outcome.sideB.score]).toEqual(['O', 'W']);
+    expect(outcome.sideB.isWinner).toBe(true);
+    expect(outcome.isWalkover).toBe(true);
+    expect(outcome.note).toBe('Vitória do Centro Esporte Clube por W.O.');
+  });
+
+  it('still explains a walkover when the team names are not at hand', () => {
+    const outcome = getMatchOutcome({
+      ...scheduled,
+      status: 'FINALIZED',
+      resultType: 'WALKOVER',
+      winnerId: TEAM_A,
+    });
+
+    expect(outcome.note).toBe('Vitória por W.O.');
+  });
+
+  it('declares no winner when both teams forfeit', () => {
+    const outcome = getMatchOutcome({
+      ...scheduled,
+      status: 'FINALIZED',
+      resultType: 'DOUBLE_WALKOVER',
+    });
+
+    expect(outcome.note).toBe('W.O. dos dois times');
     expect([outcome.sideA.score, outcome.sideB.score]).toEqual(['–', '–']);
-    expect(outcome.sideB.isWinner).toBe(winnerId === TEAM_B);
+    expect([outcome.sideA.isWinner, outcome.sideB.isWinner]).toEqual([false, false]);
   });
 });
