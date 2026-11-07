@@ -68,6 +68,7 @@ erDiagram
 | Coluna | Tipo | Nota |
 |--------|------|------|
 | `id`, `category_id` | int | |
+| `slug` | varchar | Identifica a partida na URL pública (`/jogos/centro-esporte-clube-x-alto-da-boa-vista-sub-15-masculino`). Gerado na criação com os dois times e a categoria; se o confronto se repete, ganha o sufixo `-2`, `-3`. **Fica estável** se os times forem trocados depois, para o link compartilhado nunca quebrar. `UNIQUE(slug)` |
 | `stage` | varchar | `GROUP` ou `KNOCKOUT` |
 | `group_id` | int, nulo | só na fase de grupos |
 | `round` | varchar, nulo | só no mata-mata: `ROUND_OF_32` (16 avos), `ROUND_OF_16`, `QUARTER_FINAL`, `SEMI_FINAL`, `THIRD_PLACE`, `FINAL` |
