@@ -9,6 +9,7 @@ export interface BestPlayerResponseDto {
 
 export interface MatchResponseDto {
   id: string;
+  slug: string;
   categoryId: string;
   stage: MatchStage;
   groupId: string | null;
