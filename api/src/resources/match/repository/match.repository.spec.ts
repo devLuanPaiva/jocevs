@@ -103,6 +103,7 @@ describe('MatchRepository', () => {
       location: null,
       teamAId: TEAM_ID,
       teamBId: MATCH_ID,
+      slug: 'a-x-b-sub-15-masculino',
     };
 
     await expect(repository.create(record)).resolves.toEqual({

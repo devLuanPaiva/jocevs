@@ -1,5 +1,6 @@
 import { cache } from 'react';
 import { fetchApiResult } from '@/lib/api/server-fetch';
+import { isMatchId } from '../lib/match-identifier';
 import type { Category, Match, Team } from '../types';
 
 export interface MatchDetail {
@@ -18,8 +19,7 @@ async function fetchGroupName(groupId: string | null): Promise<string | null> {
   return group.name;
 }
 
-export async function fetchMatchDetail(matchId: string): Promise<MatchDetail> {
-  const match = await fetchApiResult<Match>(`/matches/${matchId}`);
+async function completeMatchDetail(match: Match): Promise<MatchDetail> {
   const [teamA, teamB, category, groupName] = await Promise.all([
     fetchApiResult<Team>(`/teams/${match.teamAId}`),
     fetchApiResult<Team>(`/teams/${match.teamBId}`),
@@ -29,9 +29,20 @@ export async function fetchMatchDetail(matchId: string): Promise<MatchDetail> {
   return { match, teamA, teamB, category, groupName };
 }
 
-export const getMatchDetail = cache(async (matchId: string): Promise<MatchDetail | null> => {
+export async function fetchMatchDetail(matchId: string): Promise<MatchDetail> {
+  return completeMatchDetail(await fetchApiResult<Match>(`/matches/${matchId}`));
+}
+
+async function fetchMatchDetailBySlug(slug: string): Promise<MatchDetail> {
+  const path = `/matches/slug/${encodeURIComponent(slug)}`;
+  return completeMatchDetail(await fetchApiResult<Match>(path));
+}
+
+export const getMatchDetail = cache(async (identifier: string): Promise<MatchDetail | null> => {
   try {
-    return await fetchMatchDetail(matchId);
+    return await (isMatchId(identifier)
+      ? fetchMatchDetail(identifier)
+      : fetchMatchDetailBySlug(identifier));
   } catch {
     return null;
   }

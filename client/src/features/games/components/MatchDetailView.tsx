@@ -5,6 +5,7 @@ import { ButtonLink } from '@/components/ui/ButtonLink';
 import { ShareButton } from '@/components/ui/ShareButton';
 import { WaveEdge } from '@/components/ui/WaveEdge';
 import { buildGamesHref, scopeOfStatus } from '../lib/game-filters';
+import { matchPath } from '../lib/match-identifier';
 import { buildMatchShare } from '../lib/match-share';
 import { getMatchOutcome } from '../lib/match-outcome';
 import { categoryLabel, stageLabel } from '../lib/match-labels';
@@ -21,7 +22,7 @@ interface MatchDetailViewProps {
 
 export function MatchDetailView({ detail }: Readonly<MatchDetailViewProps>): ReactElement {
   const { match, teamA, teamB, category } = detail;
-  const outcome = getMatchOutcome(match);
+  const outcome = getMatchOutcome(match, detail);
   const share = buildMatchShare(detail);
   const bestPlayerTeam = match.bestPlayer?.teamId === teamB.id ? teamB : teamA;
   return (
@@ -35,6 +36,7 @@ export function MatchDetailView({ detail }: Readonly<MatchDetailViewProps>): Rea
           teamB={teamB}
           sideA={outcome.sideA}
           sideB={outcome.sideB}
+          isWalkover={outcome.isWalkover}
           note={match.status === 'SCHEDULED' ? UPCOMING_NOTE : outcome.note}
         />
       </PageHero>
@@ -53,7 +55,7 @@ export function MatchDetailView({ detail }: Readonly<MatchDetailViewProps>): Rea
             <ShareButton
               title={share.title}
               text={`${share.title} — ${share.description}`}
-              url={`/jogos/${match.id}`}
+              url={matchPath(match.slug)}
               label="Compartilhar partida"
             />
             <ButtonLink href={`/categorias/${category.id}`}>Classificação da categoria</ButtonLink>

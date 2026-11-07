@@ -43,6 +43,12 @@ export class MatchController {
   }
 
   @Public()
+  @Get('matches/slug/:slug')
+  public async getBySlug(@Param('slug') slug: string): Promise<MatchResponseDto> {
+    return toMatchResponse(await this.matchService.findBySlugOrFail(slug));
+  }
+
+  @Public()
   @Get('matches/:id')
   public async get(@Param('id', ParseIdPipe) id: string): Promise<MatchResponseDto> {
     return toMatchResponse(await this.matchService.findByIdOrFail(id));

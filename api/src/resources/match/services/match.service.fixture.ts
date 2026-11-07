@@ -1,7 +1,7 @@
 import type { CategoryService } from '../../category/services/category.service';
 import { MatchRound, MatchStage, MatchStatus } from '../enums/match.enums';
 import type { MatchRepository } from '../repository/match.repository';
-import type { MatchFixtureValidator } from './match-fixture-validator.service';
+import type { MatchFixtureService } from './match-fixture.service';
 import { MatchService } from './match.service';
 
 export const MATCH_ID = '00000000-0000-4000-8000-0000000000d1';
@@ -50,15 +50,18 @@ export function createFixture(): {
   service: MatchService;
   repository: RepositoryMock;
   categoryService: Record<'findByIdOrFail', jest.Mock>;
-  validator: Record<'assertValid', jest.Mock>;
+  validator: Record<'assertValid' | 'assignSlug', jest.Mock>;
 } {
   const repository = createRepositoryMock();
   const categoryService = { findByIdOrFail: jest.fn().mockResolvedValue({ id: CATEGORY_ID }) };
-  const validator = { assertValid: jest.fn().mockResolvedValue(undefined) };
+  const validator = {
+    assertValid: jest.fn().mockResolvedValue(undefined),
+    assignSlug: jest.fn().mockResolvedValue('centro-x-bairro-novo-sub-15-masculino'),
+  };
   const service = new MatchService(
     repository as unknown as MatchRepository,
     categoryService as unknown as CategoryService,
-    validator as unknown as MatchFixtureValidator,
+    validator as unknown as MatchFixtureService,
   );
   return { service, repository, categoryService, validator };
 }
