@@ -9,6 +9,7 @@
 | `REFRESH_TOKEN_EXPIRES_IN_DAYS` | `.env` na raiz | Validade do token de renovação, em dias (padrão `7`, máximo `90`) |
 | `GOOGLE_CLIENT_ID` | `.env` na raiz e `client/.env` | ID do cliente OAuth do Google (opcional; sem ele o login com Google fica indisponível) |
 | `GOOGLE_CLIENT_SECRET`, `SITE_URL` | `client/.env` | Segredo do cliente OAuth (só o client usa) e endereço público do site, usado na URL de retorno `SITE_URL/admin/login/google/callback` |
+| `GOOGLE_TAG_MANAGER_IDS` | `client/.env` e variáveis do site na Vercel | IDs dos contêineres do Google Tag Manager (`GTM-XXXXXXXX`), separados por vírgula, que carregam o Google Analytics. Opcional: vazio ou inválido, nada é carregado e o aviso de cookies não aparece. Só mede depois que o visitante aceita os cookies de medição (Consent Mode); faça redeploy após mudar |
 | `CORS_ORIGIN` | `.env` na raiz | Origens permitidas, separadas por vírgula (produção: `https://painel.jocevs.com.br`) |
 | `API_DOMAIN` | `.env` na raiz | Domínio público da API (Caddy emite o certificado); produção: `api.jocevs.com.br` |
 | `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | `.env` na raiz e `api/.env` | Credenciais do usuário IAM da API e a região do bucket. **Só a API usa.** Em branco, a API sobe normalmente e o envio de imagem responde `STORAGE_NOT_CONFIGURED` |
