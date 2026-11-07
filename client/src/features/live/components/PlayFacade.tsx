@@ -34,7 +34,7 @@ export function PlayFacade({ title, previewUrl, onPlay }: Readonly<PlayFacadePro
       )}
       <span
         aria-hidden="true"
-        className="relative flex size-14 items-center justify-center rounded-full bg-sun text-2xl text-brand-900 shadow-[0_5px_0_#c9a900] transition-transform duration-300 group-hover:scale-110 md:size-20 md:text-3xl md:shadow-[0_6px_0_#c9a900]"
+        className="relative flex size-10 items-center justify-center rounded-full bg-sun text-base text-brand-900 shadow-[0_3px_0_#c9a900] transition-transform duration-300 group-hover:scale-110 md:size-20 md:text-3xl md:shadow-[0_6px_0_#c9a900]"
       >
         ▶
       </span>

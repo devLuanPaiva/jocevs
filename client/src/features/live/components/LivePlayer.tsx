@@ -8,7 +8,7 @@ import { PlayFacade } from './PlayFacade';
 
 const EMBED_PERMISSIONS = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
 
-const COLLAPSED_CLASS_NAME = 'relative mx-auto w-[85%] md:w-full';
+const COLLAPSED_CLASS_NAME = 'relative w-full';
 const EXPANDED_CLASS_NAME =
   'fixed inset-0 z-50 flex items-center justify-center bg-black p-3 sm:p-8';
 const COLLAPSED_FRAME_CLASS_NAME = 'w-full max-w-6xl';
