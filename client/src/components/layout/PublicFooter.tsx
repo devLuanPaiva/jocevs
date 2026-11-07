@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import footerLogos from '@/assets/LOGOTIPOS/jocevs-2026/logos_tudo_branco.png';
 import { WaveEdge } from '@/components/ui/WaveEdge';
 import { Container } from './Container';
-import { publicNavigation } from './navigation';
+import { legalNavigation, publicNavigation } from './navigation';
 
 export function PublicFooter(): ReactElement {
   return (
@@ -29,6 +29,22 @@ export function PublicFooter(): ReactElement {
                 <Link
                   href={item.href}
                   className="flex min-h-11 items-center text-white/80 transition-colors hover:text-sun"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </Container>
+      <Container className="border-t border-white/15 pb-8 pt-6">
+        <nav aria-label="Informações legais">
+          <ul className="flex flex-wrap gap-x-6">
+            {legalNavigation.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="flex min-h-11 items-center text-sm text-white/70 transition-colors hover:text-sun"
                 >
                   {item.label}
                 </Link>
