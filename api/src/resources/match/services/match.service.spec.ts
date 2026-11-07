@@ -38,6 +38,7 @@ describe('MatchService.create', () => {
 
     expect(validator.assertValid).toHaveBeenCalledWith(CATEGORY_ID, knockoutInput);
     expect(repository.create).toHaveBeenCalledWith({
+      slug: 'centro-x-bairro-novo-sub-15-masculino',
       categoryId: CATEGORY_ID,
       stage: knockoutInput.stage,
       groupId: null,

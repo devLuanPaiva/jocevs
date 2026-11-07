@@ -4,10 +4,12 @@ import type { BatchMatchDto, CreateMatchBatchDto } from '../dto/create-match-bat
 import type { Match } from '../entities/match.entity';
 import { MatchRepository, type MatchRecord } from '../repository/match.repository';
 import { findBatchProblem } from '../rules/batch.rule';
-import { MatchFixtureValidator, toBadRequest } from './match-fixture-validator.service';
+import { toBadRequest } from './match-fixture-validator.service';
+import { MatchFixtureService } from './match-fixture.service';
 
-function toRecord(categoryId: string, input: BatchMatchDto): MatchRecord {
+function toRecord(categoryId: string, input: BatchMatchDto & { slug: string }): MatchRecord {
   return {
+    slug: input.slug,
     categoryId,
     stage: input.stage,
     groupId: input.groupId ?? null,
@@ -25,21 +27,18 @@ export class MatchBatchService {
   public constructor(
     private readonly matchRepository: MatchRepository,
     private readonly categoryService: CategoryService,
-    private readonly fixtureValidator: MatchFixtureValidator,
+    private readonly fixtures: MatchFixtureService,
   ) {}
 
   public async createMany(categoryId: string, input: CreateMatchBatchDto): Promise<Match[]> {
     await this.categoryService.findByIdOrFail(categoryId);
-    await Promise.all(
-      input.matches.map((match) => this.fixtureValidator.assertValid(categoryId, match)),
-    );
+    await Promise.all(input.matches.map((match) => this.fixtures.assertValid(categoryId, match)));
     const existing = await this.matchRepository.findByCategory(categoryId, {});
     const problem = findBatchProblem(input.matches, existing);
     if (problem) {
       throw toBadRequest(problem);
     }
-    return this.matchRepository.createMany(
-      input.matches.map((match) => toRecord(categoryId, match)),
-    );
+    const withSlugs = await this.fixtures.assignSlugs(categoryId, input.matches);
+    return this.matchRepository.createMany(withSlugs.map((match) => toRecord(categoryId, match)));
   }
 }

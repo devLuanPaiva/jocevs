@@ -6,14 +6,14 @@ import type { UpdateMatchDto } from '../dto/update-match.dto';
 import type { Match } from '../entities/match.entity';
 import { MatchStatus } from '../enums/match.enums';
 import { MatchRepository, type MatchFilters } from '../repository/match.repository';
-import { MatchFixtureValidator } from './match-fixture-validator.service';
+import { MatchFixtureService } from './match-fixture.service';
 
 @Injectable()
 export class MatchService {
   public constructor(
     private readonly matchRepository: MatchRepository,
     private readonly categoryService: CategoryService,
-    private readonly fixtureValidator: MatchFixtureValidator,
+    private readonly fixtures: MatchFixtureService,
   ) {}
 
   public async listByCategory(categoryId: string, filters: MatchFilters): Promise<Match[]> {
@@ -29,10 +29,20 @@ export class MatchService {
     return match;
   }
 
+  public async findBySlugOrFail(slug: string): Promise<Match> {
+    const match = await this.matchRepository.findBySlug(slug);
+    if (!match) {
+      throw new NotFoundException(apiError('MATCH_NOT_FOUND', 'Partida não encontrada.', 'slug'));
+    }
+    return match;
+  }
+
   public async create(categoryId: string, input: CreateMatchDto): Promise<Match> {
     await this.categoryService.findByIdOrFail(categoryId);
-    await this.fixtureValidator.assertValid(categoryId, input);
+    await this.fixtures.assertValid(categoryId, input);
+    const slug = await this.fixtures.assignSlug(categoryId, input);
     return this.matchRepository.create({
+      slug,
       categoryId,
       stage: input.stage,
       groupId: input.groupId ?? null,
@@ -77,7 +87,7 @@ export class MatchService {
         ),
       );
     }
-    await this.fixtureValidator.assertValid(current.categoryId, {
+    await this.fixtures.assertValid(current.categoryId, {
       stage: current.stage,
       groupId: current.groupId,
       round: current.round,
