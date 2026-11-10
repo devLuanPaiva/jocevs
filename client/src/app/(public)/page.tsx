@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Suspense, type ReactElement } from 'react';
 import { ModalityGrid } from '@/features/home/components/modalities/ModalityGrid';
 import { ModalityList } from '@/features/home/components/modalities/ModalityList';
@@ -6,6 +7,8 @@ import { SubEventSkeleton } from '@/features/home/components/program/SubEventSke
 import { HomePage } from '@/features/home/HomePage';
 import { LiveLoader } from '@/features/live/components/LiveLoader';
 import { FESTIVAL_YEAR } from '@/lib/config/festival';
+
+export const metadata: Metadata = { alternates: { canonical: '/' } };
 
 export default function Page(): ReactElement {
   return (
