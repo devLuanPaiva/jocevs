@@ -37,10 +37,7 @@ const KEYWORDS = [
 ];
 
 const ICONS: Metadata['icons'] = {
-  icon: [
-    { url: '/favicon.ico', sizes: '48x48' },
-    { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
-  ],
+  icon: [{ url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' }],
   apple: '/apple-touch-icon.png',
 };
 
