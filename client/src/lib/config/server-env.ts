@@ -1,6 +1,7 @@
 const DEFAULT_API_BASE_URL = 'http://localhost:3000';
 const DEFAULT_SITE_URL = 'http://localhost:3001';
 const DEFAULT_MEDIA_PUBLIC_URL = 'https://cdn.jocevs.com.br';
+const GOOGLE_TAG_MANAGER_ID_PATTERN = /^GTM-[A-Z0-9]+$/;
 const GOOGLE_CALLBACK_PATH = '/admin/login/google/callback';
 
 export interface GoogleOAuthConfig {
@@ -32,4 +33,12 @@ export function getGoogleOAuthConfig(): GoogleOAuthConfig | null {
     return null;
   }
   return { clientId, clientSecret, redirectUri: `${getSiteUrl()}${GOOGLE_CALLBACK_PATH}` };
+}
+
+export function getGoogleTagManagerIds(): string[] {
+  const configured = process.env.GOOGLE_TAG_MANAGER_IDS ?? '';
+  return configured
+    .split(',')
+    .map((containerId) => containerId.trim())
+    .filter((containerId) => GOOGLE_TAG_MANAGER_ID_PATTERN.test(containerId));
 }
