@@ -31,7 +31,7 @@ export const marqueeBottomItems = [
 
 export const stats: Stat[] = [
   { value: 25, label: 'anos de jornada' },
-  { value: 25, label: 'dias de festividade, de 4 a 28 de dezembro' },
+  { value: 25, label: 'dias de festividades, de 04 a 28 de dezembro' },
   { value: 7, label: 'eventos no calendário' },
   { value: 11, label: 'categorias em disputa' },
 ];

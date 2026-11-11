@@ -24,8 +24,8 @@ export function HeroSection(): ReactElement {
             className="mt-2 font-display text-6xl leading-[0.95] sm:text-7xl lg:text-8xl"
           />
           <p className="mt-5 max-w-xl text-lg text-white/90">
-            Futsal, handebol, cultura e festa. Acompanhe jogos, placares, fotos e a história da
-            festividade de dezembro.
+            Futsal, handebol, ciclismo, corrida, vôlei, cultura e muita festa! Acompanhe jogos,
+            resultados, fotos e os melhores momentos dessa grande celebração de dezembro.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
             <ButtonLink href="/#modalidades">Ver a JOCEV’S</ButtonLink>
