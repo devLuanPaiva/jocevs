@@ -1,11 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { CourtLocation } from '../enums/court-location.enum';
 import { MatchResultType, MatchRound, MatchStage, MatchStatus } from '../enums/match.enums';
 
 @Entity('match')
+@Index('match_slug_unique', ['slug'], { unique: true })
 export class Match {
   @PrimaryGeneratedColumn('uuid')
   public id!: string;
+
+  @Column({ type: 'varchar' })
+  public slug!: string;
 
   @Column({ type: 'uuid' })
   public categoryId!: string;

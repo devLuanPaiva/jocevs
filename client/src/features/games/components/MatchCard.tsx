@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { ReactElement } from 'react';
+import { matchPath } from '../lib/match-identifier';
 import { formatMatchTime } from '../lib/match-dates';
 import { courtLocationLabel } from '../lib/court-location';
 import { categoryLabel, stageLabel } from '../lib/match-labels';
@@ -18,7 +19,7 @@ export function MatchCard({ match }: Readonly<MatchCardProps>): ReactElement {
     .join(' · ');
   return (
     <Link
-      href={`/jogos/${match.id}`}
+      href={matchPath(match.slug)}
       className="group relative block h-full overflow-hidden rounded-3xl bg-white p-5 text-ink shadow-[0_10px_30px_rgba(7,59,134,0.12)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(7,59,134,0.22)]"
     >
       <span

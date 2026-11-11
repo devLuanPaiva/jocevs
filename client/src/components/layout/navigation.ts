@@ -11,3 +11,8 @@ export const publicNavigation: NavigationItem[] = [
   { label: 'Jogos', href: '/jogos' },
   { label: 'Galeria', href: '/galeria' },
 ];
+
+export const legalNavigation: NavigationItem[] = [
+  { label: 'Política de privacidade', href: '/politica-de-privacidade' },
+  { label: 'Política de cookies', href: '/politica-de-cookies' },
+];

@@ -5,12 +5,12 @@ import { MatchDetailLoader } from '@/features/games/components/MatchDetailLoader
 import { getMatchMetadata } from '@/features/games/services/get-match-metadata';
 
 interface MatchRouteProps {
-  params: Promise<{ matchId: string }>;
+  params: Promise<{ matchSlug: string }>;
 }
 
 export async function generateMetadata({ params }: Readonly<MatchRouteProps>): Promise<Metadata> {
-  const { matchId } = await params;
-  return getMatchMetadata(matchId);
+  const { matchSlug } = await params;
+  return getMatchMetadata(matchSlug);
 }
 
 export default function MatchRoute({ params }: Readonly<MatchRouteProps>): ReactElement {

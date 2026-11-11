@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   Between,
+  Like,
   LessThanOrEqual,
   MoreThanOrEqual,
   Repository,
   type FindOperator,
   type FindOptionsWhere,
 } from 'typeorm';
+import { escapeLikeText } from '../../../common/database/text-search';
 import { Match } from '../entities/match.entity';
 import type { CourtLocation } from '../enums/court-location.enum';
 import {
@@ -18,6 +20,7 @@ import {
 } from '../enums/match.enums';
 
 export interface MatchRecord {
+  slug: string;
   categoryId: string;
   stage: MatchStage;
   groupId: string | null;
@@ -105,6 +108,18 @@ export class MatchRepository {
 
   public findById(id: string): Promise<Match | null> {
     return this.repository.findOneBy({ id });
+  }
+
+  public findBySlug(slug: string): Promise<Match | null> {
+    return this.repository.findOneBy({ slug });
+  }
+
+  public async findSlugsStartingWith(bases: string[]): Promise<string[]> {
+    const matches = await this.repository.find({
+      select: { slug: true },
+      where: bases.map((base) => ({ slug: Like(`${escapeLikeText(base)}%`) })),
+    });
+    return matches.map((match) => match.slug);
   }
 
   public findBracketMatch(

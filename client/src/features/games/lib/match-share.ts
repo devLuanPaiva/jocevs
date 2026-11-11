@@ -7,6 +7,7 @@ import { getMatchOutcome } from './match-outcome';
 export interface MatchShare {
   title: string;
   description: string;
+  caption: string;
 }
 
 function penaltiesNote(detail: MatchDetail): string | null {
@@ -18,10 +19,10 @@ function penaltiesNote(detail: MatchDetail): string | null {
 
 function buildTitle(detail: MatchDetail): string {
   const { match, teamA, teamB } = detail;
-  if (match.status === 'SCHEDULED') {
+  const { sideA, sideB, isWalkover } = getMatchOutcome(match, detail);
+  if (match.status === 'SCHEDULED' || isWalkover || match.resultType === 'DOUBLE_WALKOVER') {
     return `${teamA.name} x ${teamB.name}`;
   }
-  const { sideA, sideB } = getMatchOutcome(match);
   return `${teamA.name} ${sideA.score} x ${sideB.score} ${teamB.name}`;
 }
 
@@ -33,13 +34,15 @@ function buildStatusLine(detail: MatchDetail): string {
       .filter(Boolean)
       .join(' · ');
   }
-  return [getMatchOutcome(match).note, penaltiesNote(detail)].filter(Boolean).join(' · ');
+  return [getMatchOutcome(match, detail).note, penaltiesNote(detail)].filter(Boolean).join(' · ');
 }
 
 export function buildMatchShare(detail: MatchDetail): MatchShare {
   const stage = stageLabel(detail.match, detail.groupName ?? undefined);
-  const description = [stage, categoryLabel(detail.category), buildStatusLine(detail)]
+  const statusLine = buildStatusLine(detail);
+  const description = [stage, categoryLabel(detail.category), statusLine]
     .filter(Boolean)
     .join(' · ');
-  return { title: buildTitle(detail), description };
+  const caption = [stage, statusLine].filter(Boolean).join(' · ');
+  return { title: buildTitle(detail), description, caption };
 }

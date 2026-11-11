@@ -28,7 +28,7 @@ function detail(match: Partial<MatchDetail['match']>): MatchDetail {
 
 describe('buildMatchShare', () => {
   it('shows the score in the title of a finished match', () => {
-    expect(buildMatchShare(detail({}))).toEqual({
+    expect(buildMatchShare(detail({}))).toMatchObject({
       title: 'Centro 2 x 1 Bairro Novo',
       description: 'Final · Adulto Masculino',
     });
@@ -51,9 +51,10 @@ describe('buildMatchShare', () => {
     expect(share.description).toContain('Ginásio');
   });
 
-  it('flags a walkover in the description', () => {
-    const share = buildMatchShare(detail({ resultType: 'WALKOVER' }));
+  it('names the team that won by walkover and keeps the letters out of the title', () => {
+    const share = buildMatchShare(detail({ resultType: 'WALKOVER', winnerId: 'b' }));
 
-    expect(share.description).toContain('Vitória por W.O.');
+    expect(share.title).toBe('Centro x Bairro Novo');
+    expect(share.description).toContain('Vitória do Bairro Novo por W.O.');
   });
 });

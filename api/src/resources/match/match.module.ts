@@ -15,11 +15,13 @@ import { BestPlayerPhotoService } from './services/best-player-photo.service';
 import { BracketSuggestionService } from './services/bracket-suggestion.service';
 import { GroupFixtureSuggestionService } from './services/group-fixture-suggestion.service';
 import { MatchBatchService } from './services/match-batch.service';
+import { MatchFixtureService } from './services/match-fixture.service';
 import { MatchFixtureValidator } from './services/match-fixture-validator.service';
 import { MatchMediaService } from './services/match-media.service';
 import { MatchListingService } from './services/match-listing.service';
 import { MatchResultService } from './services/match-result.service';
 import { MatchService } from './services/match.service';
+import { MatchSlugService } from './services/match-slug.service';
 
 @Module({
   imports: [
@@ -44,6 +46,8 @@ import { MatchService } from './services/match.service';
     BracketSuggestionService,
     GroupFixtureSuggestionService,
     MatchFixtureValidator,
+    MatchFixtureService,
+    MatchSlugService,
     MatchMediaService,
     MatchRepository,
     MatchSearchRepository,
