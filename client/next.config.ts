@@ -25,6 +25,7 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   experimental: {
     agentFeedback: true,
+    agentUpgrade: 'security',
     serverActions: { bodySizeLimit: '4mb' },
   },
   reactCompiler: true,
