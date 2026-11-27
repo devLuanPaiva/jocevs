@@ -12,17 +12,22 @@ function cellsOf(row: StandingRow): number[] {
   return [row.played, row.wins, row.draws, row.losses, row.goalDifference];
 }
 
+const NOT_STARTED_POSITION = '–';
+
 interface StandingRowViewProps {
   row: StandingRow;
+  isGroupStarted: boolean;
 }
 
-function StandingRowView({ row }: Readonly<StandingRowViewProps>): ReactElement {
+function StandingRowView({ row, isGroupStarted }: Readonly<StandingRowViewProps>): ReactElement {
   const qualified = row.qualifiedPosition !== null;
   return (
     <tr className={`border-t border-paper ${qualified ? 'bg-grass/15' : ''}`}>
       <td className="py-3 pl-4 font-display text-xl text-brand-900">
-        {row.position}
-        {row.tied ? <span title="Critérios não separaram os times">*</span> : null}
+        {isGroupStarted ? row.position : NOT_STARTED_POSITION}
+        {isGroupStarted && row.tied ? (
+          <span title="Critérios não separaram os times">*</span>
+        ) : null}
       </td>
       <th scope="row" className="max-w-0 truncate py-3 pr-2 text-left font-semibold">
         {row.teamName}
@@ -48,6 +53,7 @@ interface StandingsTableProps {
 }
 
 export function StandingsTable({ group }: Readonly<StandingsTableProps>): ReactElement {
+  const isGroupStarted = group.rows.some((row) => row.played > 0);
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-[0_10px_30px_rgba(7,59,134,0.12)]">
       <table className="w-full text-sm text-ink">
@@ -78,7 +84,7 @@ export function StandingsTable({ group }: Readonly<StandingsTableProps>): ReactE
         </thead>
         <tbody>
           {group.rows.map((row) => (
-            <StandingRowView key={row.teamId} row={row} />
+            <StandingRowView key={row.teamId} row={row} isGroupStarted={isGroupStarted} />
           ))}
         </tbody>
       </table>
