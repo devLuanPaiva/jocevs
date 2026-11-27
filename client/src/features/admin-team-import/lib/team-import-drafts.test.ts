@@ -63,7 +63,10 @@ describe('findDraftProblems', () => {
 
 describe('editing the list', () => {
   it('changes only the chosen row and keeps the abbreviation in upper case', () => {
-    const result = updateDraft([draft(), draft({ key: 'row-1' })], 'row-1', 'abbreviation', 'vi');
+    const result = updateDraft([draft(), draft({ key: 'row-1' })], 'row-1', {
+      field: 'abbreviation',
+      value: 'vi',
+    });
 
     expect(result.map((item) => item.abbreviation)).toEqual(['VIC', 'VI']);
   });
