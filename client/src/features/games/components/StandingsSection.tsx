@@ -4,6 +4,7 @@ import { Container } from '@/components/layout/Container';
 import { Reveal } from '@/components/motion/Reveal';
 import { WaveEdge } from '@/components/ui/WaveEdge';
 import type { GroupStandings } from '../types';
+import { StandingsLegend } from './StandingsLegend';
 import { StandingsTable } from './StandingsTable';
 
 interface StandingsSectionProps {
@@ -35,10 +36,7 @@ export function StandingsSection({ groups }: Readonly<StandingsSectionProps>): R
             ))}
           </div>
         )}
-        <p className="mt-6 text-xs text-ink-soft">
-          J jogos · V vitórias · E empates · D derrotas · SG saldo de gols · Pts pontos. Linhas
-          verdes: classificados confirmados. * Os critérios não separaram os times.
-        </p>
+        <StandingsLegend />
       </Container>
     </section>
   );

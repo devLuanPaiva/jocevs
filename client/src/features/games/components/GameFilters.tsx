@@ -5,6 +5,7 @@ import {
   MATCH_SCOPES,
   MODALITIES,
   subEventsOfModality,
+  type FilterHrefBuilder,
   type GameFilterParams,
 } from '../lib/game-filters';
 import { categoryLabel } from '../lib/match-labels';
@@ -17,8 +18,15 @@ interface FilterRowProps {
   children: ReactNode;
 }
 
+interface FilterRowsProps {
+  params: GameFilterParams;
+  buildHref: FilterHrefBuilder;
+}
+
 interface GameFiltersProps {
   params: GameFilterParams;
+  buildHref?: FilterHrefBuilder;
+  showScope?: boolean;
 }
 
 function FilterRow({ label, children }: Readonly<FilterRowProps>): ReactElement {
@@ -32,13 +40,13 @@ function FilterRow({ label, children }: Readonly<FilterRowProps>): ReactElement 
   );
 }
 
-function ScopeRow({ params }: Readonly<GameFiltersProps>): ReactElement {
+function ScopeRow({ params, buildHref }: Readonly<FilterRowsProps>): ReactElement {
   return (
     <FilterRow label="Jogos">
       {MATCH_SCOPES.map((item) => (
         <FilterChip
           key={item.scope}
-          href={buildGamesHref({ ...params, scope: item.scope })}
+          href={buildHref({ ...params, scope: item.scope })}
           isActive={params.scope === item.scope}
           label={item.label}
         />
@@ -47,18 +55,18 @@ function ScopeRow({ params }: Readonly<GameFiltersProps>): ReactElement {
   );
 }
 
-function ModalityRow({ params }: Readonly<GameFiltersProps>): ReactElement {
+function ModalityRow({ params, buildHref }: Readonly<FilterRowsProps>): ReactElement {
   return (
     <FilterRow label="Modalidade">
       <FilterChip
-        href={buildGamesHref({ scope: params.scope })}
+        href={buildHref({ scope: params.scope })}
         isActive={!params.modality}
         label="Todas"
       />
       {MODALITIES.map((item) => (
         <FilterChip
           key={item.slug}
-          href={buildGamesHref({ scope: params.scope, modality: item.slug })}
+          href={buildHref({ scope: params.scope, modality: item.slug })}
           isActive={params.modality === item.slug}
           label={item.label}
         />
@@ -67,20 +75,23 @@ function ModalityRow({ params }: Readonly<GameFiltersProps>): ReactElement {
   );
 }
 
-async function CategoryRow({ params }: Readonly<GameFiltersProps>): Promise<ReactElement> {
+async function CategoryRow({
+  params,
+  buildHref,
+}: Readonly<FilterRowsProps>): Promise<ReactElement> {
   const subEvents = subEventsOfModality(await getEditionSubEvents(GAMES_YEAR), params.modality);
   const lists = await Promise.all(subEvents.map((subEvent) => getSubEventCategories(subEvent.id)));
   return (
     <FilterRow label="Categoria">
       <FilterChip
-        href={buildGamesHref({ ...params, categoryId: undefined })}
+        href={buildHref({ ...params, categoryId: undefined })}
         isActive={!params.categoryId}
         label="Todas"
       />
       {lists.flat().map((category) => (
         <FilterChip
           key={category.id}
-          href={buildGamesHref({ ...params, categoryId: category.id })}
+          href={buildHref({ ...params, categoryId: category.id })}
           isActive={params.categoryId === category.id}
           label={categoryLabel(category)}
         />
@@ -89,12 +100,16 @@ async function CategoryRow({ params }: Readonly<GameFiltersProps>): Promise<Reac
   );
 }
 
-export function GameFilters({ params }: Readonly<GameFiltersProps>): ReactElement {
+export function GameFilters({
+  params,
+  buildHref = buildGamesHref,
+  showScope = true,
+}: Readonly<GameFiltersProps>): ReactElement {
   return (
     <div className="mt-10 flex flex-col gap-4 rounded-3xl bg-brand-900/70 p-5 ring-1 ring-white/20 backdrop-blur-md">
-      <ScopeRow params={params} />
-      <ModalityRow params={params} />
-      {params.modality ? <CategoryRow params={params} /> : null}
+      {showScope ? <ScopeRow params={params} buildHref={buildHref} /> : null}
+      <ModalityRow params={params} buildHref={buildHref} />
+      {params.modality ? <CategoryRow params={params} buildHref={buildHref} /> : null}
     </div>
   );
 }
