@@ -1,6 +1,10 @@
 'use client';
 
-import type { ChangeEvent, ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
+import { FileDropZone } from '@/features/admin-shell/components/FileDropZone';
+
+const CSV_TYPES = ['.csv', 'text/csv'];
+const NOT_CSV_MESSAGE = 'Escolha um arquivo no formato .csv.';
 
 interface TeamImportFilePickerProps {
   message: string | null;
@@ -11,27 +15,37 @@ export function TeamImportFilePicker({
   message,
   onFile,
 }: Readonly<TeamImportFilePickerProps>): ReactElement {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    const file = event.target.files?.[0];
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [isRejected, setIsRejected] = useState(false);
+  const shownMessage = isRejected ? NOT_CSV_MESSAGE : message;
+
+  const handleFiles = ([file]: File[]): void => {
     if (file) {
+      setIsRejected(false);
+      setFileName(file.name);
       void onFile(file);
     }
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <label className="flex flex-col gap-2 text-sm font-semibold">
-        Arquivo CSV
-        <input
-          type="file"
-          accept=".csv,text/csv"
-          onChange={handleChange}
-          className="min-h-12 rounded-xl border border-admin-line bg-white px-4 py-3 text-base font-normal"
-        />
-      </label>
-      {message ? (
+    <div className="flex flex-col gap-3">
+      <FileDropZone
+        id="team-import-file"
+        isLarge
+        acceptedTypes={CSV_TYPES}
+        title={fileName ?? 'Arraste o arquivo CSV aqui'}
+        hint={
+          fileName
+            ? 'Arraste outro arquivo ou escolha de novo para trocar a lista.'
+            : 'ou escolha o arquivo no seu aparelho. Formato .csv'
+        }
+        actionLabel={fileName ? 'Trocar arquivo' : 'Escolher arquivo'}
+        onFiles={handleFiles}
+        onRejected={() => setIsRejected(true)}
+      />
+      {shownMessage ? (
         <p role="alert" className="rounded-xl bg-danger/10 p-4 text-sm font-semibold text-danger">
-          {message}
+          {shownMessage}
         </p>
       ) : null}
     </div>
