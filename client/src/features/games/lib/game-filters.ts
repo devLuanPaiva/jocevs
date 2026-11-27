@@ -11,6 +11,8 @@ export interface GameFilterParams {
   scope: MatchScope;
 }
 
+export type FilterHrefBuilder = (params: GameFilterParams) => string;
+
 export interface Modality {
   slug: ModalitySlug;
   label: string;

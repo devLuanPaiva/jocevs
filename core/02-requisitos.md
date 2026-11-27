@@ -39,6 +39,7 @@ Prioridade: **P1** = MVP (no ar antes de 4/12) · **P2** = desejável · **P3** 
 | RF-32 | Toda ação do painel e toda tela respeitam as permissões efetivas do usuário (API e interface) | P1 |
 | RF-33 | Gerir a transmissão ao vivo: cadastrar lives (link não listado do YouTube, arte de preview, data e hora de início), escolher a ativa e ligar/desligar a seção. Só o Admin | P1 |
 | RF-34 | Importar times e grupos de um CSV: o painel lê o arquivo, mostra a lista para revisão e edição e só então cadastra tudo de uma vez | P2 |
+| RF-35 | Página pública de grupos e classificação: times de cada grupo (mesmo sem jogos), tabela e chaveamento quando existir, com os mesmos filtros de modalidade e categoria dos jogos | P2 |
 
 ## Não funcionais
 | ID | Requisito |
