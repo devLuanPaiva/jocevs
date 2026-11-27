@@ -13,6 +13,7 @@ import { MatchModule } from './resources/match/match.module';
 import { MatchGroupModule } from './resources/match-group/match-group.module';
 import { StandingModule } from './resources/standing/standing.module';
 import { SubEventModule } from './resources/sub-event/sub-event.module';
+import { TeamImportModule } from './resources/team-import/team-import.module';
 import { TeamModule } from './resources/team/team.module';
 
 @Module({
@@ -27,6 +28,7 @@ import { TeamModule } from './resources/team/team.module';
     CategoryModule,
     MatchGroupModule,
     TeamModule,
+    TeamImportModule,
     MatchModule,
     StandingModule,
     GalleryModule,

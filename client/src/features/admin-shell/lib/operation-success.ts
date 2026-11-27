@@ -14,6 +14,10 @@ export interface OperationMessage {
 const OPERATION_MESSAGES = {
   'team-created': { title: 'Time criado', description: 'O time foi cadastrado com sucesso.' },
   'team-updated': { title: 'Time atualizado', description: 'As alterações do time foram salvas.' },
+  'teams-imported': {
+    title: 'Times cadastrados',
+    description: 'Os grupos e os times do arquivo foram cadastrados com sucesso.',
+  },
   'team-deleted': { title: 'Time excluído', description: 'O time foi removido com sucesso.' },
   'match-created': { title: 'Partida criada', description: 'A partida foi agendada com sucesso.' },
   'match-updated': {
