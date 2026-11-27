@@ -126,6 +126,7 @@ A edição **2026** e os 7 sub-eventos do calendário (handebol 4–6/12, festiv
 | DELETE | `/teams/:id` | `team:manage` | Exclui o time. 204 |
 | PUT | `/teams/:id/photo` | `team:manage` | Troca a foto do time. `multipart/form-data` com o arquivo no campo `file` (JPG, PNG ou WebP, até 10 MB). A API converte para um único WebP de até 1600 px, grava no S3 em `teams/{categoria}/{time}/team-{chave}.webp`, atualiza `photoKey` e apaga o arquivo antigo. Devolve o time. Erros: 400 `FILE_REQUIRED`, `FILE_TYPE_INVALID` e `IMAGE_UNREADABLE` (campo `file`), 413 `PAYLOAD_TOO_LARGE`, 503 `STORAGE_NOT_CONFIGURED` e `STORAGE_UNAVAILABLE`. Limite de 20 envios por minuto |
 | DELETE | `/teams/:id/photo` | `team:manage` | Tira a foto do time (`photoKey` vira nulo) e apaga os arquivos do S3. Devolve o time |
+| POST | `/team-imports` | `team:manage` | Cadastra grupos e times de várias categorias de uma vez (RN-55): `{ rows: [{ categoryId, group, name, city, abbreviation? }] }`, de 1 a 300 linhas. Reaproveita os grupos que já existem na categoria e cria os demais, tudo em uma transação. Devolve `{ groupsCreated, teamsCreated }`. 409 `TEAM_NAME_TAKEN` ou `TEAM_SLUG_TAKEN` e 400 `TEAM_NAME_INVALID` com `detail` iniciado por `Linha N:` e `field` `rows.<índice>.name`; nada é gravado em caso de erro |
 
 As 11 categorias da edição 2026 (RN-11: 7 de handebol e 4 de futsal) vêm do seed da migration. O time guarda só a chave do arquivo da foto (`photoKey`), e a URL é `https://cdn.jocevs.com.br/{photoKey}`. O bloqueio de excluir time com partidas (RN-33) já vale.
 

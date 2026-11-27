@@ -38,6 +38,7 @@ Prioridade: **P1** = MVP (no ar antes de 4/12) · **P2** = desejável · **P3** 
 | RF-31 | Gerir permissões: ajustar as permissões de um papel e conceder/revogar permissões para um usuário específico | P1 |
 | RF-32 | Toda ação do painel e toda tela respeitam as permissões efetivas do usuário (API e interface) | P1 |
 | RF-33 | Gerir a transmissão ao vivo: cadastrar lives (link não listado do YouTube, arte de preview, data e hora de início), escolher a ativa e ligar/desligar a seção. Só o Admin | P1 |
+| RF-34 | Importar times e grupos de um CSV: o painel lê o arquivo, mostra a lista para revisão e edição e só então cadastra tudo de uma vez | P2 |
 
 ## Não funcionais
 | ID | Requisito |
