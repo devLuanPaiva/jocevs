@@ -9,6 +9,7 @@ export interface SitemapEntry {
 export const PUBLIC_SITEMAP_ENTRIES: SitemapEntry[] = [
   { path: '/', changeFrequency: 'daily', priority: 1 },
   { path: '/jogos', changeFrequency: 'hourly', priority: 0.9 },
+  { path: '/grupos', changeFrequency: 'hourly', priority: 0.8 },
   { path: '/galeria', changeFrequency: 'weekly', priority: 0.7 },
   { path: '/historia', changeFrequency: 'yearly', priority: 0.6 },
   { path: '/politica-de-privacidade', changeFrequency: 'yearly', priority: 0.2 },
