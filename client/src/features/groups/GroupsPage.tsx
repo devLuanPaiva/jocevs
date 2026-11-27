@@ -2,9 +2,9 @@ import { Suspense, type ReactElement } from 'react';
 import { PageHero } from '@/components/layout/PageHero';
 import { ButtonLink } from '@/components/ui/ButtonLink';
 import { GameFiltersFromUrl } from '@/features/games/components/GameFiltersFromUrl';
-import { MatchListSkeleton } from '@/features/games/components/MatchListSkeleton';
 import type { SearchParams } from '@/features/games/lib/game-filters';
 import { GroupsContent } from './components/GroupsContent';
+import { GroupsSkeleton } from './components/GroupsSkeleton';
 import { buildGroupsHref } from './lib/groups-href';
 
 interface GroupsPageProps {
@@ -32,7 +32,7 @@ export function GroupsPage({ searchParams }: Readonly<GroupsPageProps>): ReactEl
           />
         </Suspense>
       </PageHero>
-      <Suspense fallback={<MatchListSkeleton />}>
+      <Suspense fallback={<GroupsSkeleton />}>
         <GroupsContent searchParams={searchParams} />
       </Suspense>
     </>
