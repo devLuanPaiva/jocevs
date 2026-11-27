@@ -30,11 +30,8 @@ const nextConfig: NextConfig = {
   },
   reactCompiler: true,
   images: {
-    remotePatterns: [
-      { protocol: 'https', hostname: 'thumb.wikimedia.org' },
-      { protocol: 'https', hostname: 'api.dicebear.com' },
-      mediaRemotePattern(),
-    ],
+    unoptimized: true,
+    remotePatterns: [mediaRemotePattern()],
   },
   turbopack: {
     rules: {
